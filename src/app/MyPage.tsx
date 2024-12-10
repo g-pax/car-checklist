@@ -2,6 +2,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const categories1 = [
   {
@@ -403,6 +404,24 @@ const categories1 = [
   },
 ];
 
+// Add this new component for the progress bar
+const ProgressBar = ({ progress }: { progress: number }) => (
+  <div className="absolute bottom-0 left-0 h-1.5 w-full bg-gray-200">
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: `${progress}%` }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`h-full ${
+        progress === 0
+          ? "bg-gray-300"
+          : progress === 100
+          ? "bg-green-500"
+          : "bg-blue-500"
+      }`}
+    />
+  </div>
+);
+
 const MyPage = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [openCategories, setOpenCategories] = useState({});
@@ -432,45 +451,76 @@ const MyPage = () => {
       [categoryName]: !prev[categoryName],
     }));
   };
+
+  // Add this helper function to calculate progress
+  const calculateProgress = (categoryName: string, items: any[]) => {
+    const checkedCount = items.reduce((count, _, index) => {
+      const key = `${categoryName}-${index}`;
+      return checkedItems[key as keyof typeof checkedItems] ? count + 1 : count;
+    }, 0);
+    return (checkedCount / items.length) * 100;
+  };
+
   return (
     <>
       <h1 className="text-xl font-bold mb-4">Checklist BMW G20 320d xDrive</h1>
       {categories1.map((cat, catIndex) => {
         const isOpen =
           openCategories[cat.name as keyof typeof openCategories] || false;
+        const progress = calculateProgress(cat.name, cat.items);
+
         return (
-          <div key={catIndex} className="border rounded-md overflow-hidden">
-            <button
-              onClick={() => toggleCategory(cat.name)}
-              className="w-full text-left px-4 py-2 bg-gray-200 text-black font-semibold flex justify-between items-center"
-            >
-              <span>{cat.name}</span>
-              <span>{isOpen ? "–" : "+"}</span>
-            </button>
+          <div
+            key={catIndex}
+            className="border rounded-md overflow-hidden mb-3"
+          >
+            <div className="relative">
+              <button
+                onClick={() => toggleCategory(cat.name)}
+                className="w-full text-left px-5 py-4 bg-gray-200 text-black font-semibold flex justify-between items-center hover:bg-gray-100 transition-colors"
+              >
+                <span className="flex-1 text-lg">{cat.name}</span>
+                <span className="ml-2 text-sm text-gray-600">
+                  {Math.round(progress)}%
+                </span>
+                <span className="ml-4 text-lg">{isOpen ? "–" : "+"}</span>
+              </button>
+              <ProgressBar progress={progress} />
+            </div>
             {isOpen && (
-              <div className="p-4 space-y-4 bg-white">
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="p-4 space-y-4 bg-white"
+              >
                 {cat.items.map((item, index) => {
                   const key = `${cat.name}-${index}`;
                   return (
-                    <div key={index} className="flex items-start space-x-2">
+                    <div
+                      key={index}
+                      className="flex items-start space-x-3 cursor-pointer group"
+                      onClick={() => toggleCheck(cat.name, index)}
+                    >
                       <input
                         type="checkbox"
                         checked={
                           !!checkedItems[key as keyof typeof checkedItems]
                         }
                         onChange={() => toggleCheck(cat.name, index)}
-                        className="mt-1"
+                        className="mt-1.5 h-5 w-5 cursor-pointer accent-blue-500"
                       />
-                      <div>
-                        <div className="font-medium text-black">
+                      <div className="flex-1">
+                        <div className="font-medium text-black text-lg group-hover:text-blue-600 transition-colors">
                           {item.aspect}
                         </div>
-                        <div className="text-gray-700">{item.details}</div>
+                        <div className="text-gray-700 mt-1">{item.details}</div>
                       </div>
                     </div>
                   );
                 })}
-              </div>
+              </motion.div>
             )}
           </div>
         );

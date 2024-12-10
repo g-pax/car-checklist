@@ -1,4 +1,5 @@
 import MyPage from "./MyPage";
+export const revalidate = 0;
 
 export default function HomePage() {
   return (

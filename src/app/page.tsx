@@ -1,4 +1,5 @@
 "use client";
+import "../tailwind.css";
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";

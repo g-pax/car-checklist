@@ -5,42 +5,76 @@ import { useEffect, useState } from "react";
 
 const categories1 = [
   {
-    name: "Documente & Istoric Vehicul",
+    name: "Documente, Istoric, Proprietari, Întreținere, Accidente & Garanții",
     items: [
       {
         aspect: "Istoric de service complet",
         details:
-          "Verificați existența unui istoric de service complet, cu revizii regulate (ideal la service autorizat).",
+          "Solicitați facturi, înregistrări, carnet de service cu toate reviziile efectuate, de preferat la service-uri autorizate.",
       },
       {
         aspect: "Conformitate VIN",
         details:
-          "Asigurați-vă că VIN-ul din documente corespunde cu cel de pe mașină (bord, stâlp ușă, compartiment motor).",
+          "Verificați că VIN-ul din documente corespunde cu cel de pe caroserie (bord, stâlp ușă, compartiment motor).",
       },
       {
         aspect: "Situație juridică & financiară",
         details:
-          "Confirmați că mașina nu este sub leasing, gaj sau datorii și că documentele sunt clare.",
+          "Confirmați că mașina nu este sub leasing, gaj sau datorii și documentele de proprietate sunt în regulă.",
       },
       {
         aspect: "Istoric accidente & daune",
         details:
-          "Verificați rapoarte tip Carfax pentru daune majore, reparații notabile sau daună totală.",
+          "Consultați rapoarte (ex: Carfax) pentru daune majore, reparații notabile sau daune totale anterioare.",
       },
       {
         aspect: "Garanții & asigurări",
         details:
-          "Verificați dacă există garanție de fabrică rămasă, garanție extinsă sau asigurări relevante.",
+          "Există garanție de fabrică rămasă, garanție extinsă sau asigurări CASCO transferabile?",
+      },
+      {
+        aspect: "Intervale de întreținere",
+        details:
+          "Au fost respectate intervalele la schimb ulei, filtre, lichid de frână și alte consumabile?",
+      },
+      {
+        aspect: "Kilometraj & Parcurs",
+        details:
+          "Kilometrajul este real și confirmat? Mașina a fost condusă preponderent urban, extraurban sau pe autostradă?",
+      },
+      {
+        aspect: "Număr de proprietari",
+        details: "Câți proprietari a avut mașina și pentru cât timp fiecare?",
+      },
+      {
+        aspect: "Tip de utilizare",
+        details:
+          "A fost folosită personal, în flotă, taxi, ride-sharing sau alt regim intens?",
+      },
+      {
+        aspect: "Accidente anterioare detaliate",
+        details:
+          "A suferit accidente? Ce tip de daune și cum au fost reparate? Există poze sau rapoarte?",
+      },
+      {
+        aspect: "Documentație reparații",
+        details:
+          "Există facturi, rapoarte foto sau documente oficiale ale reparațiilor efectuate?",
+      },
+      {
+        aspect: "Plan de service",
+        details:
+          "Există pachete de service preplătite sau întreținere programată care pot fi transferate?",
       },
     ],
   },
   {
-    name: "Exterior",
+    name: "Exterior & Elemente Aerodinamice",
     items: [
       {
         aspect: "Caroserie & vopsea",
         details:
-          "Verificați panourile pentru aliniere corectă, fără diferențe de culoare sau reparații neprofesioniste.",
+          "Verificați alinierea panourilor, absența reparațiilor neprofesioniste sau diferențelor de culoare.",
       },
       {
         aspect: "Rugină & coroziune",
@@ -50,12 +84,12 @@ const categories1 = [
       {
         aspect: "Geamuri, parbriz, oglinzi",
         details:
-          "Fără crăpături, ciobituri; oglinzile și dezaburirea să funcționeze.",
+          "Fără crăpături, ciobituri; oglinzi și dezaburire funcționale.",
       },
       {
         aspect: "Luminile exterioare",
         details:
-          "Faruri, stopuri, semnalizări, lumini de ceață și adaptive să funcționeze corect, fără pâlpâiri.",
+          "Faruri, stopuri, semnalizări, lumini de ceață/adaptive să funcționeze corect, fără pâlpâiri.",
       },
       {
         aspect: "Elemente aerodinamice & protecții",
@@ -65,21 +99,22 @@ const categories1 = [
     ],
   },
   {
-    name: "Roți & Anvelope",
+    name: "Anvelope & Jante",
     items: [
       {
-        aspect: "Jante",
-        details: "Fără lovituri, fisuri, zgârieturi adânci sau deformări.",
-      },
-      {
-        aspect: "Anvelope",
+        aspect: "Stare anvelope",
         details:
           "Profil uniform, aceeași marcă/model, fără crăpături, data de fabricație rezonabilă.",
       },
       {
         aspect: "Seturi suplimentare",
         details:
-          "Întrebați de anvelope de iarnă/vară suplimentare, jante de rezervă.",
+          "Există anvelope de iarnă/vară suplimentare, jante de rezervă?",
+      },
+      {
+        aspect: "Jante",
+        details:
+          "Fără lovituri, fisuri, zgârieturi adânci sau deformări; dacă au fost reparate, cum?",
       },
     ],
   },
@@ -109,42 +144,42 @@ const categories1 = [
       {
         aspect: "Infotainment & audio",
         details:
-          "iDrive (sau sistem echivalent) rapid, navigație actuală, Bluetooth, CarPlay/Android Auto, sistem audio funcțional.",
+          "Sistem rapid, navigație actuală, Bluetooth, CarPlay/Android Auto, sistem audio clar.",
       },
       {
         aspect: "Funcții speciale interioare",
         details:
-          "Trapă panoramică, iluminare ambientală, HUD, masaj scaune – toate funcționale.",
+          "Trapă panoramică, iluminare ambientală, Head-Up Display, masaj scaune – testate și funcționale.",
       },
     ],
   },
   {
-    name: "Motor & Componente Mecanice",
+    name: "Motor & Componente Mecanice (incl. DPF, AdBlue, EGR)",
     items: [
       {
         aspect: "Compartiment motor",
         details:
-          "Fără scurgeri de ulei, lichid răcire, combustibil; furtunuri și curele în stare bună.",
+          "Fără scurgeri de ulei, lichid răcire, combustibil; furtunuri/curele în stare bună.",
       },
       {
         aspect: "Ulei & lichide",
         details:
-          "Ulei motor la nivel corect, lichid răcire, frână, servodirecție (dacă există) în parametri normali.",
+          "Ulei motor la nivel corect, lichid de răcire, frână, servodirecție în parametri normali.",
       },
       {
         aspect: "Sistem diesel (DPF, AdBlue, EGR)",
         details:
-          "Fără avertizări DPF, regenerări regulate, completări AdBlue, EGR curat sau verificat.",
+          "Fără avertizări DPF, regenerări forțate? Completări AdBlue regulate? EGR curățat?",
       },
       {
         aspect: "Baterie & electric",
         details:
-          "Pornire ușoară, baterie sub 5 ani preferabil, fără martori de eroare electrice.",
+          "Pornire ușoară, baterie sub ~5 ani, fără martori de eroare electrice.",
       },
       {
         aspect: "Răcire & intercooler",
         details:
-          "Radiator, intercooler, furtunuri fără scurgeri fine sau fisuri.",
+          "Radiator, intercooler, furtunuri fără scurgeri fine, fisuri sau urme de deteriorare.",
       },
     ],
   },
@@ -154,17 +189,17 @@ const categories1 = [
       {
         aspect: "Cutie de viteze",
         details:
-          "Schimbări line, fără smucituri. La automată (ZF 8HP), luați în calcul schimb de ulei la 80-100k km.",
+          "Schimbări line, fără smucituri. La automată (ZF 8HP), posibil schimb ulei la 80-100k km.",
       },
       {
-        aspect: "xDrive sau 4x4",
+        aspect: "xDrive/4x4",
         details:
-          "Fără zgomote suspecte în viraje strânse, anvelope cu uzură uniformă.",
+          "Fără zgomote suspecte în viraje strânse, anvelope uzate uniform.",
       },
       {
         aspect: "Ambreiaj (manual)",
         details:
-          "Fără patinare, punct de cuplare corect, schimb ușor al treptelor.",
+          "Fără patinare, punct de cuplare corect, trepte schimbate ușor.",
       },
     ],
   },
@@ -183,11 +218,12 @@ const categories1 = [
       {
         aspect: "Suspensie adaptivă",
         details:
-          "Modurile Sport/Comfort trebuie să schimbe clar rigiditatea suspensiei.",
+          "Modurile Sport/Comfort schimbă clar rigiditatea și comportamentul.",
       },
       {
         aspect: "Bucșe, bielete, brațe",
-        details: "Fără jocuri mari, uzură excesivă sau zgomote metalice.",
+        details:
+          "Fără jocuri mari, uzură excesivă sau zgomote metalice la suspensie.",
       },
     ],
   },
@@ -197,12 +233,12 @@ const categories1 = [
       {
         aspect: "Airbaguri & centuri",
         details:
-          "Fără martori aprinși, centuri care se fixează și rulează corect.",
+          "Fără martori aprinși, centuri funcționale, fără semne de declanșare anterioară.",
       },
       {
         aspect: "Asistență la condus",
         details:
-          "ABS, ESP, Lane Assist, Blind Spot, Pilot adaptiv – toate funcționale.",
+          "ABS, ESP, Lane Assist, Blind Spot, Pilot adaptiv – testați funcționalitatea.",
       },
       {
         aspect: "Camere & senzori parcare",
@@ -212,27 +248,27 @@ const categories1 = [
       {
         aspect: "Afișaj head-up",
         details:
-          "Vizibilitate bună, afișare corectă a vitezei, navigație, alerte.",
+          "Vizibilitate bună, afișare corectă a vitezei, navigație, avertismente.",
       },
     ],
   },
   {
-    name: "Software & Electronică",
+    name: "Software, Recall-uri & Electronică",
     items: [
       {
         aspect: "Actualizări software",
         details:
-          "Infotainment, hărți, ECU/TCU la zi. Fără recall-uri nerezolvate.",
+          "Infotainment, hărți, ECU/TCU la zi, fără probleme de firmware.",
       },
       {
-        aspect: "Servicii Connected (BMW ConnectedDrive)",
+        aspect: "Recall-uri nerezolvate",
         details:
-          "Funcții active sau reînnoibile (Remote Start, Parking Assistant etc.).",
+          "Verificați dacă există campanii de rechemare neefectuate și rezolvați-le.",
       },
       {
-        aspect: "Chei & acces confort",
+        aspect: "Servicii Connected",
         details:
-          "Toate cheile prezente, keyless entry, integrare smartphone, funcționale.",
+          "BMW ConnectedDrive, Remote Start, Parking Assistant – disponibile sau reînnoibile?",
       },
     ],
   },
@@ -241,11 +277,13 @@ const categories1 = [
     items: [
       {
         aspect: "Pornire la rece",
-        details: "Motorul pornește prompt, fără fum excesiv sau ezitări.",
+        details:
+          "Motorul pornește prompt, fără fum excesiv, zgomote ciudate sau ezitări.",
       },
       {
         aspect: "Accelerare & putere",
-        details: "Răspuns bun, cuplu adecvat, fără întreruperi.",
+        details:
+          "Răspuns bun, cuplu adecvat, fără întreruperi sau goluri de putere.",
       },
       {
         aspect: "Zgomot & vibrații",
@@ -255,7 +293,7 @@ const categories1 = [
       {
         aspect: "Consum combustibil",
         details:
-          "Verificați consumul, să fie în parametri normali pentru model.",
+          "Verificați consumul, să fie în parametri normali pentru modelul respectiv.",
       },
     ],
   },
@@ -263,32 +301,43 @@ const categories1 = [
     name: "Verificarea Pachetului Full Option",
     items: [
       {
-        aspect: "Decodor VIN",
-        details: "Comparați lista de opțiuni din fabrică cu echiparea actuală.",
+        aspect: "Decodor VIN (opțiuni)",
+        details:
+          "Comparați opțiunile din fabrică cu echiparea actuală a mașinii.",
       },
       {
-        aspect: "Dotări suplimentare (HUD, audio premium etc.)",
-        details: "Asigurați-vă că toate funcționează conform descrierii.",
+        aspect: "Dotări suplimentare",
+        details:
+          "HUD, audio premium, iluminare ambientală, scaune ventilate – verificați funcționalitatea.",
       },
       {
         aspect: "Echipări interioare & exterioare top",
         details:
-          "Calitatea finisajelor, ornamente, electronice, tehnologii prezente și funcționale.",
+          "Calitatea finisajelor, ornamente, electronice, tehnologii prezente conform descrierii.",
       },
     ],
   },
   {
-    name: "Stabilirea Prețului & Compararea cu Piața",
+    name: "Preț & Motivul Vânzării",
     items: [
       {
         aspect: "Preț comparativ",
         details:
-          "Analizați oferte similare (an, km, opțiuni) pentru o evaluare corectă.",
+          "Analizați ofertele similare (an, km, opțiuni) pentru evaluare corectă.",
       },
       {
         aspect: "Costuri imediate",
         details:
           "Luați în calcul reparații/întreținere apropiate (ulei, filtre, plăcuțe frână, anvelope).",
+      },
+      {
+        aspect: "Motivul vânzării",
+        details: "Care este motivul real al vânzării mașinii?",
+      },
+      {
+        aspect: "Preț negociabil",
+        details:
+          "Există loc de negociere după o eventuală inspecție la service?",
       },
     ],
   },
@@ -297,16 +346,18 @@ const categories1 = [
     items: [
       {
         aspect: "Transfer planuri de întreținere",
-        details: "Garanții extinse, pachete service preplătite transferabile?",
+        details:
+          "Garanții extinse, pachete service preplătite pot fi transferate noului proprietar?",
       },
       {
         aspect: "Proxime revizii",
         details:
-          "Ce revizii urmează la 80.000-100.000 km? (ulei transmisie, lichid frână, filtre).",
+          "Ce revizii urmează la 80.000-100.000 km? (schimb ulei transmisie, lichid frână, filtre)",
       },
       {
         aspect: "Accesorii suplimentare",
-        details: "Covorașe, kit scule, roată de rezervă, etc. incluse?",
+        details:
+          "Sunt incluse covorașe, kit scule, roată de rezervă, plase portbagaj etc.?",
       },
     ],
   },
@@ -315,133 +366,23 @@ const categories1 = [
     items: [
       {
         aspect: "Transmisie & diferențiale",
-        details: "Planificați schimb ulei cutie, diferențiale, transfer case.",
+        details:
+          "Planificați schimbul uleiului în cutia de viteze și diferențiale conform recomandărilor.",
       },
       {
         aspect: "EGR, DPF, intercooler",
         details:
-          "Verificați EGR (recall?), starea DPF, intercooler fără probleme.",
+          "Verificați starea EGR, DPF și intercooler, eventuale recall-uri sau curățări necesare.",
       },
       {
         aspect: "Suspensii & bucșe",
-        details: "Uzuri normale la acest rulaj, verificați bătăi subtile.",
-      },
-      {
-        aspect: "Test la service specializat",
-        details: "Un PPI (Pre-Purchase Inspection) pentru siguranță maximă.",
-      },
-    ],
-  },
-  {
-    name: "Istoric & Întreținere",
-    items: [
-      {
-        aspect: "Istoric de service complet",
         details:
-          "Puteți prezenta facturi și înregistrări ale tuturor reviziilor efectuate la service-uri autorizate?",
+          "Uzuri normale la acest rulaj, verificați eventuale zgomote subtile sau jocuri mici.",
       },
       {
-        aspect: "Intervale de întreținere",
+        aspect: "Test la service specializat (PPI)",
         details:
-          "Au fost respectate intervalele de schimb ulei, filtre, lichid de frână și alte consumabile?",
-      },
-      {
-        aspect: "Kilometraj & Parcurs",
-        details:
-          "Kilometrajul este real și confirmat? Mașina a fost condusă preponderent urban, extraurban sau pe autostradă?",
-      },
-    ],
-  },
-  {
-    name: "Accidente & Reparații",
-    items: [
-      {
-        aspect: "Accidente anterioare",
-        details:
-          "A fost implicată mașina în accidente? Dacă da, ce daune au fost și cum au fost reparate?",
-      },
-      {
-        aspect: "Documentație reparații",
-        details:
-          "Există facturi, rapoarte foto sau documente oficiale care să ateste lucrările de reparație?",
-      },
-    ],
-  },
-  {
-    name: "Sisteme Diesel (DPF, AdBlue, EGR)",
-    items: [
-      {
-        aspect: "DPF & Regenerări",
-        details:
-          "Ați avut probleme cu DPF-ul? S-au efectuat regenerări forțate sau curățări speciale?",
-      },
-      {
-        aspect: "AdBlue",
-        details:
-          "A fost nevoie vreodată de completări frecvente de AdBlue sau ați întâmpinat avertismente legate de acesta?",
-      },
-      {
-        aspect: "EGR",
-        details:
-          "A fost curățat sau înlocuit EGR-ul sau s-au semnalat probleme cu depuneri de carbon?",
-      },
-    ],
-  },
-  {
-    name: "Software & Recall-uri",
-    items: [
-      {
-        aspect: "Actualizări software",
-        details:
-          "Ați efectuat ultimele update-uri software la un dealer BMW sau service autorizat?",
-      },
-      {
-        aspect: "Recall-uri",
-        details:
-          "Mașina a fost implicată în campanii de rechemare (recall)? Dacă da, s-au rezolvat toate?",
-      },
-    ],
-  },
-  {
-    name: "Proprietari & Folosință",
-    items: [
-      {
-        aspect: "Număr de proprietari",
-        details: "Câți proprietari a avut mașina până acum?",
-      },
-      {
-        aspect: "Tip de utilizare",
-        details:
-          "A fost mașina folosită personal, ca mașină de flotă, taxi, ride-sharing sau alt regim intens?",
-      },
-    ],
-  },
-  {
-    name: "Garanții & Servicii",
-    items: [
-      {
-        aspect: "Garanție existentă",
-        details:
-          "Există garanție de fabrică rămasă sau garanție extinsă transferabilă?",
-      },
-      {
-        aspect: "Plan de service",
-        details:
-          "Există pachete de service preplătite sau asigurări CASCO ce pot fi transferate noului proprietar?",
-      },
-    ],
-  },
-  {
-    name: "Anvelope & Jante",
-    items: [
-      {
-        aspect: "Stare anvelope",
-        details:
-          "Când au fost schimbate ultimele anvelope și ce marcă sunt? Există seturi de iarnă/vară suplimentare?",
-      },
-      {
-        aspect: "Jante",
-        details: "Jantele au fost vreodată lovite, îndreptate sau reparate?",
+          "Un Pre-Purchase Inspection la un service autorizat BMW pentru siguranță maximă.",
       },
     ],
   },
@@ -451,26 +392,12 @@ const categories1 = [
       {
         aspect: "Chei & dubluri",
         details:
-          "Există toate cheile originale (cheia principală, secundară, digital key)?",
+          "Există toate cheile originale (cheie principală, secundară, digital key) funcționale?",
       },
       {
         aspect: "Accesorii incluse",
         details:
-          "Sunt incluse covorașe originale, kit pană, cric, trusă de prim-ajutor, triunghi reflectorizant, manuale și hărți?",
-      },
-    ],
-  },
-  {
-    name: "Motivul Vânzării & Preț",
-    items: [
-      {
-        aspect: "Motivul vânzării",
-        details: "Care este motivul pentru care vindeți mașina?",
-      },
-      {
-        aspect: "Preț negociabil",
-        details:
-          "Prețul este negociabil? Ați fi dispus la o discuție după o eventuală inspecție la service?",
+          "Covorașe originale, kit pană, cric, trusă prim-ajutor, triunghi reflectorizant, manuale, hărți – toate prezente?",
       },
     ],
   },

@@ -406,14 +406,14 @@ const categories1 = [
 
 // Add this new component for the progress bar
 const ProgressBar = ({ progress }: { progress: number }) => (
-  <div className="absolute bottom-0 left-0 h-1.5 w-full bg-gray-200">
+  <div className="absolute bottom-0 left-0 h-1.5 w-full bg-gray-400">
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: `${progress}%` }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className={`h-full ${
         progress === 0
-          ? "bg-gray-300"
+          ? "bg-gray-500"
           : progress === 100
           ? "bg-green-500"
           : "bg-blue-500"

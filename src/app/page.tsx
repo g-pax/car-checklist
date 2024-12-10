@@ -2,383 +2,383 @@
 
 import { useEffect, useState } from "react";
 
-const categories = [
-  {
-    name: "Documente & Istoric Vehicul",
-    items: [
-      {
-        aspect: "Istoric de service complet",
-        details:
-          "Verificați existența unui istoric de service complet, cu revizii regulate efectuate, ideal la service-uri autorizate BMW.",
-      },
-      {
-        aspect: "Întreținere la intervale corecte",
-        details:
-          "Asigurați-vă că s-au respectat intervalele de schimbare ulei, filtre, lichid de frână și alte consumabile.",
-      },
-      {
-        aspect: "Conformitate VIN",
-        details:
-          "Verificați că VIN-ul de pe documente corespunde cu cel de pe bord, stâlpul ușii și din compartimentul motor.",
-      },
-      {
-        aspect: "Lipsa datorii/garanții",
-        details:
-          "Confirmați că mașina nu este sub gaj sau leasing, și că documentele de proprietate sunt clare.",
-      },
-      {
-        aspect: "Istoric accidente/asigurări",
-        details:
-          "Consultați rapoarte tip Carfax sau echivalent (verificați daune majore, reparații notabile).",
-      },
-      {
-        aspect: "Garanție existentă sau extinsă",
-        details:
-          "Verificați dacă mai există garanție de fabrică sau un plan de garanție extins transferabil.",
-      },
-    ],
-  },
-  {
-    name: "Exterior",
-    items: [
-      {
-        aspect: "Alinierea panourilor caroseriei",
-        details:
-          "Asigurați-vă că există spații egale între panouri, fără semne de reparații defectuoase sau accidente anterioare.",
-      },
-      {
-        aspect: "Calitatea și uniformitatea vopselei",
-        details:
-          "Căutați diferențe de culoare, supra-vopsiri, urme de lac în exces sau semne de reparații neprofesioniste.",
-      },
-      {
-        aspect: "Urme de rugină și coroziune",
-        details:
-          "Inspectați pasajele roților, pragurile, șasiul și zonele ascunse pentru urme de rugină sau coroziune.",
-      },
-      {
-        aspect: "Starea geamurilor și oglinzilor",
-        details:
-          "Verificați crăpături, ciobituri, zgârieturi; asigurați-vă că oglinzile, sistemul de rabatare și dezaburire funcționează.",
-      },
-      {
-        aspect: "Funcționalitatea luminilor (LED)",
-        details:
-          "Faruri, stopuri, semnalizări, lumini de ceață, lumini adaptive – toate trebuie să funcționeze corect, fără pâlpâiri.",
-      },
-    ],
-  },
-  {
-    name: "Roți & Anvelope",
-    items: [
-      {
-        aspect: "Starea jantelor",
-        details:
-          "Verificați dacă există lovituri, zgârieturi, deformări sau fisuri.",
-      },
-      {
-        aspect: "Anvelope de marcă și uzură uniformă",
-        details:
-          "Profil uniform, același brand/model pe toate roțile (important pentru xDrive).",
-      },
-      {
-        aspect: "Data fabricării anvelopelor",
-        details:
-          "Verificați data producției și starea generală (fără crăpături).",
-      },
-    ],
-  },
-  {
-    name: "Interior",
-    items: [
-      {
-        aspect: "Tapițerie și materiale",
-        details:
-          "Examinați uzura scaunelor, volanului, schimbătorului, bordului și fețelor de uși.",
-      },
-      {
-        aspect: "Funcțiile scaunelor și memorii",
-        details:
-          "Testați reglajele electrice, suportul lombar, încălzire/răcire scaune, memorii poziție.",
-      },
-      {
-        aspect: "Sistem infotainment (iDrive)",
-        details:
-          "Testați Bluetooth, CarPlay/Android Auto, hărți GPS, control gesturi.",
-      },
-      {
-        aspect: "Sistem audio (Harman/Kardon)",
-        details:
-          "Verificați boxele, subwoofer, calitatea sunetului, comenzile audio.",
-      },
-      {
-        aspect: "Climă și încălzire",
-        details:
-          "Testați AC, încălzire, ventilație scaune, încălzire volan, zone climatice multiple.",
-      },
-      {
-        aspect: "Trapă/Panoramic",
-        details:
-          "Deschideți/închideți, verificați etanșeitatea și funcționarea perdelei.",
-      },
-    ],
-  },
-  {
-    name: "Motor & Componente Mecanice",
-    items: [
-      {
-        aspect: "Verificarea compartimentului motor",
-        details:
-          "Căutați scurgeri de ulei, lichid răcire, combustibil. Inspectați furtunuri/garnituri.",
-      },
-      {
-        aspect: "Ulei și lichide",
-        details: "Nivel corect, fără impurități metalice.",
-      },
-      {
-        aspect: "DPF și AdBlue (diesel)",
-        details:
-          "Întrebați despre regenerare DPF, completări AdBlue, absența fumului excesiv.",
-      },
-      {
-        aspect: "Curele și furtunuri",
-        details: "Curele fără crăpături, furtunuri flexibile.",
-      },
-      {
-        aspect: "Baterie și sistem electric",
-        details: "Pornire ușoară, fără martori, verificați starea bateriei.",
-      },
-    ],
-  },
-  {
-    name: "Transmisie & xDrive",
-    items: [
-      {
-        aspect: "Schimbările de viteză line și rapide",
-        details: "Fără smucituri sau întârzieri la test drive.",
-      },
-      {
-        aspect: "Sunete anormale la xDrive",
-        details: "Fără clicuri/pocnituri în viraje strânse.",
-      },
-      {
-        aspect: "Modurile de condus (Sport/Comfort/Eco)",
-        details:
-          "Modificările trebuie să schimbe clar caracteristicile de condus.",
-      },
-    ],
-  },
-  {
-    name: "Frâne & Suspensie",
-    items: [
-      {
-        aspect: "Starea plăcuțelor și discurilor de frână",
-        details: "Fără uzură excesivă, deformări sau rugină.",
-      },
-      {
-        aspect: "Test de frânare",
-        details: "Fără vibrații, zgomote, tragere într-o parte.",
-      },
-      {
-        aspect: "Suspensie și direcție",
-        details: "Fără zgomote la denivelări, mașina merge drept.",
-      },
-      {
-        aspect: "Suspensie adaptivă (dacă există)",
-        details: "Modurile schimbă clar rigiditatea suspensiei.",
-      },
-    ],
-  },
-  {
-    name: "Sisteme de Siguranță & Asistență",
-    items: [
-      {
-        aspect: "Cameră marșarier și 360°",
-        details: "Imagine clară, senzori funcționali.",
-      },
-      {
-        aspect: "Pilot automat adaptiv, păstrarea benzii etc.",
-        details: "Testați funcțiile asistenței la condus.",
-      },
-      {
-        aspect: "Afișaj head-up (HUD)",
-        details: "Vizibil, afișează viteza, navigație, alerte.",
-      },
-      {
-        aspect: "Airbaguri și centuri",
-        details: "Fără martori aprinși, centuri în stare bună.",
-      },
-    ],
-  },
-  {
-    name: "Software & Electronică",
-    items: [
-      {
-        aspect: "Servicii BMW ConnectedDrive",
-        details: "Verificați dacă sunt active sau reînnoibile.",
-      },
-      { aspect: "Actualizări software", details: "Hărți, infotainment la zi." },
-      {
-        aspect: "Chei și acces confort",
-        details:
-          "Testați toate cheile, acces fără cheie, integrarea smartphone.",
-      },
-    ],
-  },
-  {
-    name: "Test de Drum",
-    items: [
-      {
-        aspect: "Pornire la rece",
-        details: "Motorul pornește ușor, fără erori.",
-      },
-      {
-        aspect: "Accelerare și livrare de putere",
-        details: "Cuplu bun, fără ezitări.",
-      },
-      {
-        aspect: "Zgomot și vibrații",
-        details: "Fără zgomote anormale, vibrații excesive.",
-      },
-      {
-        aspect: "Consum de combustibil",
-        details:
-          "Consumul în parametri normali pentru 320d xDrive, Start-Stop lin.",
-      },
-    ],
-  },
-  {
-    name: "Verificarea Pachetului Full Option",
-    items: [
-      {
-        aspect: "Codurile opțiunilor din fabrică",
-        details: "Folositi decodor VIN pentru confirmarea opțiunilor.",
-      },
-      {
-        aspect: "Dotări suplimentare (HUD, audio premium etc.)",
-        details: "Asigurați-vă că toate funcționează conform descrierii.",
-      },
-      {
-        aspect: "Echipări interioare și exterioare top",
-        details: "Calitatea finisajelor, ornamente, electronice, tehnologii.",
-      },
-    ],
-  },
-  {
-    name: "Stabilirea Prețului & Comparare",
-    items: [
-      {
-        aspect: "Preț comparat cu modele similare",
-        details: "Evaluare corectă față de piață.",
-      },
-      {
-        aspect: "Costuri de reparații imediate",
-        details: "Luați în considerare eventualele cheltuieli.",
-      },
-    ],
-  },
-  {
-    name: "Considerații după Cumpărare",
-    items: [
-      {
-        aspect: "Transferul planurilor de întreținere",
-        details:
-          "Există planuri de întreținere sau garanții extinse transferabile?",
-      },
-      {
-        aspect: "Programul următor de întreținere",
-        details: "Ce revizii urmează la 80.000-100.000 km?",
-      },
-      {
-        aspect: "Accesorii suplimentare",
-        details: "Anvelope iarnă, covorașe, kit de scule?",
-      },
-    ],
-  },
+// const categories = [
+//   {
+//     name: "Documente & Istoric Vehicul",
+//     items: [
+//       {
+//         aspect: "Istoric de service complet",
+//         details:
+//           "Verificați existența unui istoric de service complet, cu revizii regulate efectuate, ideal la service-uri autorizate BMW.",
+//       },
+//       {
+//         aspect: "Întreținere la intervale corecte",
+//         details:
+//           "Asigurați-vă că s-au respectat intervalele de schimbare ulei, filtre, lichid de frână și alte consumabile.",
+//       },
+//       {
+//         aspect: "Conformitate VIN",
+//         details:
+//           "Verificați că VIN-ul de pe documente corespunde cu cel de pe bord, stâlpul ușii și din compartimentul motor.",
+//       },
+//       {
+//         aspect: "Lipsa datorii/garanții",
+//         details:
+//           "Confirmați că mașina nu este sub gaj sau leasing, și că documentele de proprietate sunt clare.",
+//       },
+//       {
+//         aspect: "Istoric accidente/asigurări",
+//         details:
+//           "Consultați rapoarte tip Carfax sau echivalent (verificați daune majore, reparații notabile).",
+//       },
+//       {
+//         aspect: "Garanție existentă sau extinsă",
+//         details:
+//           "Verificați dacă mai există garanție de fabrică sau un plan de garanție extins transferabil.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Exterior",
+//     items: [
+//       {
+//         aspect: "Alinierea panourilor caroseriei",
+//         details:
+//           "Asigurați-vă că există spații egale între panouri, fără semne de reparații defectuoase sau accidente anterioare.",
+//       },
+//       {
+//         aspect: "Calitatea și uniformitatea vopselei",
+//         details:
+//           "Căutați diferențe de culoare, supra-vopsiri, urme de lac în exces sau semne de reparații neprofesioniste.",
+//       },
+//       {
+//         aspect: "Urme de rugină și coroziune",
+//         details:
+//           "Inspectați pasajele roților, pragurile, șasiul și zonele ascunse pentru urme de rugină sau coroziune.",
+//       },
+//       {
+//         aspect: "Starea geamurilor și oglinzilor",
+//         details:
+//           "Verificați crăpături, ciobituri, zgârieturi; asigurați-vă că oglinzile, sistemul de rabatare și dezaburire funcționează.",
+//       },
+//       {
+//         aspect: "Funcționalitatea luminilor (LED)",
+//         details:
+//           "Faruri, stopuri, semnalizări, lumini de ceață, lumini adaptive – toate trebuie să funcționeze corect, fără pâlpâiri.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Roți & Anvelope",
+//     items: [
+//       {
+//         aspect: "Starea jantelor",
+//         details:
+//           "Verificați dacă există lovituri, zgârieturi, deformări sau fisuri.",
+//       },
+//       {
+//         aspect: "Anvelope de marcă și uzură uniformă",
+//         details:
+//           "Profil uniform, același brand/model pe toate roțile (important pentru xDrive).",
+//       },
+//       {
+//         aspect: "Data fabricării anvelopelor",
+//         details:
+//           "Verificați data producției și starea generală (fără crăpături).",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Interior",
+//     items: [
+//       {
+//         aspect: "Tapițerie și materiale",
+//         details:
+//           "Examinați uzura scaunelor, volanului, schimbătorului, bordului și fețelor de uși.",
+//       },
+//       {
+//         aspect: "Funcțiile scaunelor și memorii",
+//         details:
+//           "Testați reglajele electrice, suportul lombar, încălzire/răcire scaune, memorii poziție.",
+//       },
+//       {
+//         aspect: "Sistem infotainment (iDrive)",
+//         details:
+//           "Testați Bluetooth, CarPlay/Android Auto, hărți GPS, control gesturi.",
+//       },
+//       {
+//         aspect: "Sistem audio (Harman/Kardon)",
+//         details:
+//           "Verificați boxele, subwoofer, calitatea sunetului, comenzile audio.",
+//       },
+//       {
+//         aspect: "Climă și încălzire",
+//         details:
+//           "Testați AC, încălzire, ventilație scaune, încălzire volan, zone climatice multiple.",
+//       },
+//       {
+//         aspect: "Trapă/Panoramic",
+//         details:
+//           "Deschideți/închideți, verificați etanșeitatea și funcționarea perdelei.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Motor & Componente Mecanice",
+//     items: [
+//       {
+//         aspect: "Verificarea compartimentului motor",
+//         details:
+//           "Căutați scurgeri de ulei, lichid răcire, combustibil. Inspectați furtunuri/garnituri.",
+//       },
+//       {
+//         aspect: "Ulei și lichide",
+//         details: "Nivel corect, fără impurități metalice.",
+//       },
+//       {
+//         aspect: "DPF și AdBlue (diesel)",
+//         details:
+//           "Întrebați despre regenerare DPF, completări AdBlue, absența fumului excesiv.",
+//       },
+//       {
+//         aspect: "Curele și furtunuri",
+//         details: "Curele fără crăpături, furtunuri flexibile.",
+//       },
+//       {
+//         aspect: "Baterie și sistem electric",
+//         details: "Pornire ușoară, fără martori, verificați starea bateriei.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Transmisie & xDrive",
+//     items: [
+//       {
+//         aspect: "Schimbările de viteză line și rapide",
+//         details: "Fără smucituri sau întârzieri la test drive.",
+//       },
+//       {
+//         aspect: "Sunete anormale la xDrive",
+//         details: "Fără clicuri/pocnituri în viraje strânse.",
+//       },
+//       {
+//         aspect: "Modurile de condus (Sport/Comfort/Eco)",
+//         details:
+//           "Modificările trebuie să schimbe clar caracteristicile de condus.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Frâne & Suspensie",
+//     items: [
+//       {
+//         aspect: "Starea plăcuțelor și discurilor de frână",
+//         details: "Fără uzură excesivă, deformări sau rugină.",
+//       },
+//       {
+//         aspect: "Test de frânare",
+//         details: "Fără vibrații, zgomote, tragere într-o parte.",
+//       },
+//       {
+//         aspect: "Suspensie și direcție",
+//         details: "Fără zgomote la denivelări, mașina merge drept.",
+//       },
+//       {
+//         aspect: "Suspensie adaptivă (dacă există)",
+//         details: "Modurile schimbă clar rigiditatea suspensiei.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Sisteme de Siguranță & Asistență",
+//     items: [
+//       {
+//         aspect: "Cameră marșarier și 360°",
+//         details: "Imagine clară, senzori funcționali.",
+//       },
+//       {
+//         aspect: "Pilot automat adaptiv, păstrarea benzii etc.",
+//         details: "Testați funcțiile asistenței la condus.",
+//       },
+//       {
+//         aspect: "Afișaj head-up (HUD)",
+//         details: "Vizibil, afișează viteza, navigație, alerte.",
+//       },
+//       {
+//         aspect: "Airbaguri și centuri",
+//         details: "Fără martori aprinși, centuri în stare bună.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Software & Electronică",
+//     items: [
+//       {
+//         aspect: "Servicii BMW ConnectedDrive",
+//         details: "Verificați dacă sunt active sau reînnoibile.",
+//       },
+//       { aspect: "Actualizări software", details: "Hărți, infotainment la zi." },
+//       {
+//         aspect: "Chei și acces confort",
+//         details:
+//           "Testați toate cheile, acces fără cheie, integrarea smartphone.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Test de Drum",
+//     items: [
+//       {
+//         aspect: "Pornire la rece",
+//         details: "Motorul pornește ușor, fără erori.",
+//       },
+//       {
+//         aspect: "Accelerare și livrare de putere",
+//         details: "Cuplu bun, fără ezitări.",
+//       },
+//       {
+//         aspect: "Zgomot și vibrații",
+//         details: "Fără zgomote anormale, vibrații excesive.",
+//       },
+//       {
+//         aspect: "Consum de combustibil",
+//         details:
+//           "Consumul în parametri normali pentru 320d xDrive, Start-Stop lin.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Verificarea Pachetului Full Option",
+//     items: [
+//       {
+//         aspect: "Codurile opțiunilor din fabrică",
+//         details: "Folositi decodor VIN pentru confirmarea opțiunilor.",
+//       },
+//       {
+//         aspect: "Dotări suplimentare (HUD, audio premium etc.)",
+//         details: "Asigurați-vă că toate funcționează conform descrierii.",
+//       },
+//       {
+//         aspect: "Echipări interioare și exterioare top",
+//         details: "Calitatea finisajelor, ornamente, electronice, tehnologii.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Stabilirea Prețului & Comparare",
+//     items: [
+//       {
+//         aspect: "Preț comparat cu modele similare",
+//         details: "Evaluare corectă față de piață.",
+//       },
+//       {
+//         aspect: "Costuri de reparații imediate",
+//         details: "Luați în considerare eventualele cheltuieli.",
+//       },
+//     ],
+//   },
+//   {
+//     name: "Considerații după Cumpărare",
+//     items: [
+//       {
+//         aspect: "Transferul planurilor de întreținere",
+//         details:
+//           "Există planuri de întreținere sau garanții extinse transferabile?",
+//       },
+//       {
+//         aspect: "Programul următor de întreținere",
+//         details: "Ce revizii urmează la 80.000-100.000 km?",
+//       },
+//       {
+//         aspect: "Accesorii suplimentare",
+//         details: "Anvelope iarnă, covorașe, kit de scule?",
+//       },
+//     ],
+//   },
 
-  // Additional checks for ~70,000 km
-  {
-    name: "Verificări Suplimentare (aprox. 70.000 km)",
-    items: [
-      {
-        aspect: "Starea supapei EGR și răcitor EGR",
-        details: "Verificați depuneri de carbon, eventuale recall-uri.",
-      },
-      {
-        aspect: "Depuneri carbon pe admisie",
-        details: "Inspectați galeria de admisie.",
-      },
-      {
-        aspect: "Regenerări DPF corespunzătoare",
-        details: "Tip de parcurs, fără avertizări DPF.",
-      },
-      {
-        aspect: "Istoric avertizări DPF",
-        details: "Fără probleme nerezolvate DPF.",
-      },
-      {
-        aspect: "Schimb ulei cutie viteze (ZF 8HP)",
-        details: "Planificați schimbul ~80.000-100.000 km.",
-      },
-      {
-        aspect: "Ulei în diferențiale / cutia transfer xDrive",
-        details: "Asigurați-vă că lichidele au fost sau vor fi schimbate.",
-      },
-      {
-        aspect: "Panouri inferioare, elemente aerodinamice",
-        details: "Fără piese lipsă sau slăbite sub mașină.",
-      },
-      {
-        aspect: "Bucșe, bielete, brațe suspensie",
-        details: "Semne de uzură: scârțâituri, uzură inegală anvelope.",
-      },
-      {
-        aspect: "Răspuns direcție (EPS)",
-        details: "Fără “loc mort” sau mișcări sacadate.",
-      },
-      {
-        aspect: "Actualizări iDrive, hărți, ECU, recall-uri",
-        details: "Software la zi, fără recall-uri nerezolvate.",
-      },
-      {
-        aspect: "Starea bateriei",
-        details: "Test la ~4-5 ani, posibilă înlocuire.",
-      },
-      {
-        aspect: "Senzori, conexiuni electrice",
-        details: "ABS, TPS, camere, senzori parcare funcționali.",
-      },
-      {
-        aspect: "Radiatoare, intercooler, furtunuri admisie",
-        details: "Fără scurgeri fine sau fisuri.",
-      },
-      {
-        aspect: "Butoane și funcții rare",
-        details: "Testați toate funcțiile rare, iluminarea ambientală.",
-      },
-      {
-        aspect: "Zgomote minore, vibrații subtile (NVH)",
-        details: "Identificați scârțâituri interioare, vibrații ușoare.",
-      },
-      {
-        aspect: "Plan viitoare revizii (80.000-100.000 km)",
-        details: "Schimb lichid transmisie, lichid frână, filtre.",
-      },
-      {
-        aspect: "Opțiuni ConnectedDrive & abonamente",
-        details: "Discutați costuri, upgradări (ex: Remote Start).",
-      },
-      {
-        aspect: "Condiții garanție extinsă",
-        details: "Verificați ce acoperă.",
-      },
-      {
-        aspect: "Test la service specializat BMW",
-        details: "Un control amănunțit pentru siguranță.",
-      },
-    ],
-  },
-];
+//   // Additional checks for ~70,000 km
+//   {
+//     name: "Verificări Suplimentare (aprox. 70.000 km)",
+//     items: [
+//       {
+//         aspect: "Starea supapei EGR și răcitor EGR",
+//         details: "Verificați depuneri de carbon, eventuale recall-uri.",
+//       },
+//       {
+//         aspect: "Depuneri carbon pe admisie",
+//         details: "Inspectați galeria de admisie.",
+//       },
+//       {
+//         aspect: "Regenerări DPF corespunzătoare",
+//         details: "Tip de parcurs, fără avertizări DPF.",
+//       },
+//       {
+//         aspect: "Istoric avertizări DPF",
+//         details: "Fără probleme nerezolvate DPF.",
+//       },
+//       {
+//         aspect: "Schimb ulei cutie viteze (ZF 8HP)",
+//         details: "Planificați schimbul ~80.000-100.000 km.",
+//       },
+//       {
+//         aspect: "Ulei în diferențiale / cutia transfer xDrive",
+//         details: "Asigurați-vă că lichidele au fost sau vor fi schimbate.",
+//       },
+//       {
+//         aspect: "Panouri inferioare, elemente aerodinamice",
+//         details: "Fără piese lipsă sau slăbite sub mașină.",
+//       },
+//       {
+//         aspect: "Bucșe, bielete, brațe suspensie",
+//         details: "Semne de uzură: scârțâituri, uzură inegală anvelope.",
+//       },
+//       {
+//         aspect: "Răspuns direcție (EPS)",
+//         details: "Fără “loc mort” sau mișcări sacadate.",
+//       },
+//       {
+//         aspect: "Actualizări iDrive, hărți, ECU, recall-uri",
+//         details: "Software la zi, fără recall-uri nerezolvate.",
+//       },
+//       {
+//         aspect: "Starea bateriei",
+//         details: "Test la ~4-5 ani, posibilă înlocuire.",
+//       },
+//       {
+//         aspect: "Senzori, conexiuni electrice",
+//         details: "ABS, TPS, camere, senzori parcare funcționali.",
+//       },
+//       {
+//         aspect: "Radiatoare, intercooler, furtunuri admisie",
+//         details: "Fără scurgeri fine sau fisuri.",
+//       },
+//       {
+//         aspect: "Butoane și funcții rare",
+//         details: "Testați toate funcțiile rare, iluminarea ambientală.",
+//       },
+//       {
+//         aspect: "Zgomote minore, vibrații subtile (NVH)",
+//         details: "Identificați scârțâituri interioare, vibrații ușoare.",
+//       },
+//       {
+//         aspect: "Plan viitoare revizii (80.000-100.000 km)",
+//         details: "Schimb lichid transmisie, lichid frână, filtre.",
+//       },
+//       {
+//         aspect: "Opțiuni ConnectedDrive & abonamente",
+//         details: "Discutați costuri, upgradări (ex: Remote Start).",
+//       },
+//       {
+//         aspect: "Condiții garanție extinsă",
+//         details: "Verificați ce acoperă.",
+//       },
+//       {
+//         aspect: "Test la service specializat BMW",
+//         details: "Un control amănunțit pentru siguranță.",
+//       },
+//     ],
+//   },
+// ];
 
 const categories1 = [
   {

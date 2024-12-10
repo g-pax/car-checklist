@@ -2,7 +2,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import "./style.css";
 
 const categories1 = [
   {
@@ -404,14 +404,12 @@ const categories1 = [
   },
 ];
 
-// Add this new component for the progress bar
+// Replace the ProgressBar component with this CSS version
 const ProgressBar = ({ progress }: { progress: number }) => (
   <div className="absolute bottom-0 left-0 h-1.5 w-full bg-gray-400">
-    <motion.div
-      initial={{ width: 0 }}
-      animate={{ width: `${progress}%` }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`h-full ${
+    <div
+      style={{ width: `${progress}%` }}
+      className={`h-full transition-all duration-300 ease-in-out ${
         progress === 0
           ? "bg-gray-500"
           : progress === 100
@@ -488,12 +486,11 @@ const MyPage = () => {
               <ProgressBar progress={progress} />
             </div>
             {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="p-4 space-y-4 bg-white"
+              <div
+                className="p-4 space-y-4 bg-white animate-slideDown overflow-hidden"
+                style={{
+                  animation: "slideDown 0.3s ease-in-out forwards",
+                }}
               >
                 {cat.items.map((item, index) => {
                   const key = `${cat.name}-${index}`;
@@ -520,7 +517,7 @@ const MyPage = () => {
                     </div>
                   );
                 })}
-              </motion.div>
+              </div>
             )}
           </div>
         );

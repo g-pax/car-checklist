@@ -2,7 +2,7 @@
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 // const categories = [
 //   {
@@ -744,48 +744,52 @@ export default function HomePage() {
   };
 
   return (
-    <main className="p-4 max-w-md mx-auto space-y-4 text-sm">
-      <h1 className="text-xl font-bold mb-4">Checklist BMW G20 320d xDrive</h1>
-      {categories1.map((cat, catIndex) => {
-        const isOpen =
-          openCategories[cat.name as keyof typeof openCategories] || false;
-        return (
-          <div key={catIndex} className="border rounded-md overflow-hidden">
-            <button
-              onClick={() => toggleCategory(cat.name)}
-              className="w-full text-left px-4 py-2 bg-gray-200 text-black font-semibold flex justify-between items-center"
-            >
-              <span>{cat.name}</span>
-              <span>{isOpen ? "–" : "+"}</span>
-            </button>
-            {isOpen && (
-              <div className="p-4 space-y-4 bg-white">
-                {cat.items.map((item, index) => {
-                  const key = `${cat.name}-${index}`;
-                  return (
-                    <div key={index} className="flex items-start space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={
-                          !!checkedItems[key as keyof typeof checkedItems]
-                        }
-                        onChange={() => toggleCheck(cat.name, index)}
-                        className="mt-1"
-                      />
-                      <div>
-                        <div className="font-medium text-black">
-                          {item.aspect}
+    <Suspense fallback={<div>Loading...</div>}>
+      <main className="p-4 max-w-md mx-auto space-y-4 text-sm">
+        <h1 className="text-xl font-bold mb-4">
+          Checklist BMW G20 320d xDrive
+        </h1>
+        {categories1.map((cat, catIndex) => {
+          const isOpen =
+            openCategories[cat.name as keyof typeof openCategories] || false;
+          return (
+            <div key={catIndex} className="border rounded-md overflow-hidden">
+              <button
+                onClick={() => toggleCategory(cat.name)}
+                className="w-full text-left px-4 py-2 bg-gray-200 text-black font-semibold flex justify-between items-center"
+              >
+                <span>{cat.name}</span>
+                <span>{isOpen ? "–" : "+"}</span>
+              </button>
+              {isOpen && (
+                <div className="p-4 space-y-4 bg-white">
+                  {cat.items.map((item, index) => {
+                    const key = `${cat.name}-${index}`;
+                    return (
+                      <div key={index} className="flex items-start space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={
+                            !!checkedItems[key as keyof typeof checkedItems]
+                          }
+                          onChange={() => toggleCheck(cat.name, index)}
+                          className="mt-1"
+                        />
+                        <div>
+                          <div className="font-medium text-black">
+                            {item.aspect}
+                          </div>
+                          <div className="text-gray-700">{item.details}</div>
                         </div>
-                        <div className="text-gray-700">{item.details}</div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </main>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </main>
+    </Suspense>
   );
 }

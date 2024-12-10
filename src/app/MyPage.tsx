@@ -332,6 +332,148 @@ const categories1 = [
       },
     ],
   },
+  {
+    name: "Istoric & Întreținere",
+    items: [
+      {
+        aspect: "Istoric de service complet",
+        details:
+          "Puteți prezenta facturi și înregistrări ale tuturor reviziilor efectuate la service-uri autorizate?",
+      },
+      {
+        aspect: "Intervale de întreținere",
+        details:
+          "Au fost respectate intervalele de schimb ulei, filtre, lichid de frână și alte consumabile?",
+      },
+      {
+        aspect: "Kilometraj & Parcurs",
+        details:
+          "Kilometrajul este real și confirmat? Mașina a fost condusă preponderent urban, extraurban sau pe autostradă?",
+      },
+    ],
+  },
+  {
+    name: "Accidente & Reparații",
+    items: [
+      {
+        aspect: "Accidente anterioare",
+        details:
+          "A fost implicată mașina în accidente? Dacă da, ce daune au fost și cum au fost reparate?",
+      },
+      {
+        aspect: "Documentație reparații",
+        details:
+          "Există facturi, rapoarte foto sau documente oficiale care să ateste lucrările de reparație?",
+      },
+    ],
+  },
+  {
+    name: "Sisteme Diesel (DPF, AdBlue, EGR)",
+    items: [
+      {
+        aspect: "DPF & Regenerări",
+        details:
+          "Ați avut probleme cu DPF-ul? S-au efectuat regenerări forțate sau curățări speciale?",
+      },
+      {
+        aspect: "AdBlue",
+        details:
+          "A fost nevoie vreodată de completări frecvente de AdBlue sau ați întâmpinat avertismente legate de acesta?",
+      },
+      {
+        aspect: "EGR",
+        details:
+          "A fost curățat sau înlocuit EGR-ul sau s-au semnalat probleme cu depuneri de carbon?",
+      },
+    ],
+  },
+  {
+    name: "Software & Recall-uri",
+    items: [
+      {
+        aspect: "Actualizări software",
+        details:
+          "Ați efectuat ultimele update-uri software la un dealer BMW sau service autorizat?",
+      },
+      {
+        aspect: "Recall-uri",
+        details:
+          "Mașina a fost implicată în campanii de rechemare (recall)? Dacă da, s-au rezolvat toate?",
+      },
+    ],
+  },
+  {
+    name: "Proprietari & Folosință",
+    items: [
+      {
+        aspect: "Număr de proprietari",
+        details: "Câți proprietari a avut mașina până acum?",
+      },
+      {
+        aspect: "Tip de utilizare",
+        details:
+          "A fost mașina folosită personal, ca mașină de flotă, taxi, ride-sharing sau alt regim intens?",
+      },
+    ],
+  },
+  {
+    name: "Garanții & Servicii",
+    items: [
+      {
+        aspect: "Garanție existentă",
+        details:
+          "Există garanție de fabrică rămasă sau garanție extinsă transferabilă?",
+      },
+      {
+        aspect: "Plan de service",
+        details:
+          "Există pachete de service preplătite sau asigurări CASCO ce pot fi transferate noului proprietar?",
+      },
+    ],
+  },
+  {
+    name: "Anvelope & Jante",
+    items: [
+      {
+        aspect: "Stare anvelope",
+        details:
+          "Când au fost schimbate ultimele anvelope și ce marcă sunt? Există seturi de iarnă/vară suplimentare?",
+      },
+      {
+        aspect: "Jante",
+        details: "Jantele au fost vreodată lovite, îndreptate sau reparate?",
+      },
+    ],
+  },
+  {
+    name: "Chei & Accesorii",
+    items: [
+      {
+        aspect: "Chei & dubluri",
+        details:
+          "Există toate cheile originale (cheia principală, secundară, digital key)?",
+      },
+      {
+        aspect: "Accesorii incluse",
+        details:
+          "Sunt incluse covorașe originale, kit pană, cric, trusă de prim-ajutor, triunghi reflectorizant, manuale și hărți?",
+      },
+    ],
+  },
+  {
+    name: "Motivul Vânzării & Preț",
+    items: [
+      {
+        aspect: "Motivul vânzării",
+        details: "Care este motivul pentru care vindeți mașina?",
+      },
+      {
+        aspect: "Preț negociabil",
+        details:
+          "Prețul este negociabil? Ați fi dispus la o discuție după o eventuală inspecție la service?",
+      },
+    ],
+  },
 ];
 
 const MyPage = () => {

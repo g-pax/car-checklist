@@ -364,7 +364,7 @@ const MyPage = () => {
     }));
   };
   return (
-    <div>
+    <>
       <h1 className="text-xl font-bold mb-4">Checklist BMW G20 320d xDrive</h1>
       {categories1.map((cat, catIndex) => {
         const isOpen =
@@ -406,7 +406,7 @@ const MyPage = () => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 
